@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    ports:
+      - "80"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M

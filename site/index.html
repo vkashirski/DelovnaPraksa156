@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business Name</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <a class="logo" href="#home">Business Name</a>
+    <nav>
+      <a href="#about" data-i18n="nav_about">За нас</a>
+      <a href="#team" data-i18n="nav_team">Тим</a>
+      <a href="#services" data-i18n="nav_services">Услуги</a>
+      <a href="#news" data-i18n="nav_news">Новости</a>
+      <a href="#contact" data-i18n="nav_contact">Контакт</a>
+    </nav>
+    <div class="lang">
+      <button data-lang="mk">MK</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <h1 data-i18n="hero_title">Добредојдовте</h1>
+      <p data-i18n="hero_text">Накратко за што станува збор.</p>
+    </section>
+
+    <section id="about">
+      <h2 data-i18n="nav_about">За нас</h2>
+      <p data-i18n="about_text">Основни информации, историја, работно време, локација.</p>
+    </section>
+
+    <section id="team">
+      <h2 data-i18n="nav_team">Тим</h2>
+      <div class="cards">
+        <div class="card"><h3>Име Презиме</h3><p data-i18n="role">Улога</p></div>
+        <div class="card"><h3>Име Презиме</h3><p data-i18n="role">Улога</p></div>
+        <div class="card"><h3>Име Презиме</h3><p data-i18n="role">Улога</p></div>
+      </div>
+    </section>
+
+    <section id="services">
+      <h2 data-i18n="nav_services">Услуги</h2>
+      <div class="cards">
+        <div class="card"><h3 data-i18n="service">Услуга</h3><p data-i18n="service_text">Опис и цена.</p></div>
+        <div class="card"><h3 data-i18n="service">Услуга</h3><p data-i18n="service_text">Опис и цена.</p></div>
+        <div class="card"><h3 data-i18n="service">Услуга</h3><p data-i18n="service_text">Опис и цена.</p></div>
+      </div>
+    </section>
+
+    <section id="news">
+      <h2 data-i18n="nav_news">Новости</h2>
+      <article class="card"><h3 data-i18n="post">Објава</h3><p data-i18n="post_text">Содржина на објавата.</p></article>
+    </section>
+
+    <section id="contact">
+      <h2 data-i18n="nav_contact">Контакт</h2>
+      <p>Адреса · Телефон · email@example.com</p>
+      <form id="contact-form" novalidate>
+        <input name="name" type="text" required data-i18n-ph="ph_name" placeholder="Име">
+        <input name="email" type="email" required data-i18n-ph="ph_email" placeholder="Е-пошта">
+        <textarea name="message" rows="4" required data-i18n-ph="ph_message" placeholder="Порака"></textarea>
+        <button type="submit" data-i18n="send">Испрати</button>
+        <p id="form-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Business Name · <a href="#cookies" data-i18n="cookie_policy">Политика за колачиња</a></p>
+  </footer>
+
+  <div id="cookie-banner" hidden>
+    <span data-i18n="cookie_text">Користиме колачиња за подобро искуство.</span>
+    <button id="cookie-accept" data-i18n="accept">Прифати</button>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
