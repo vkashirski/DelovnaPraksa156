@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тортара | Нарачај торта</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-title-key="title.order">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" data-i18n="brand">Тортара</a>
+
+      <nav id="site-nav" class="site-nav">
+        <a href="../index.html" data-i18n="nav.home">Почетна</a>
+        <a href="order.html" aria-current="page" data-i18n="nav.order">Нарачај</a>
+        <a href="about.html" data-i18n="nav.about">За нас</a>
+        <a href="contact.html" data-i18n="nav.contact">Контакт</a>
+      </nav>
+
+      <div class="header-actions">
+        <a id="account-link" class="account-chip" href="account.html">
+          <span id="account-avatar" class="avatar avatar-guest" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+          <span id="account-label" class="account-chip-label" data-i18n="nav.login">Најава</span>
+        </a>
+        <div class="lang-switch">
+          <button id="lang-toggle" class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu" aria-label="Промени јазик" title="Промени јазик">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <ellipse cx="12" cy="12" rx="4" ry="9"/>
+              <path d="M3 12h18M4.5 7.5h15M4.5 16.5h15"/>
+            </svg>
+            <span data-i18n="lang.current">МК</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="lang-menu" class="lang-menu" hidden>
+            <li><button type="button" data-lang="mk" lang="mk">Македонски</button></li>
+            <li><button type="button" data-lang="en" lang="en">English</button></li>
+          </ul>
+        </div>
+        <button id="menu-toggle" class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Отвори мени" data-i18n-aria="nav.menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1 data-i18n="order.title">Нарачај торта</h1>
+        <p id="order-subtitle" data-i18n="order.subtitle.menu">Изберете торта, облик и големина, а ние ја печеме и ја доставуваме.</p>
+      </div>
+    </section>
+
+    <form id="order-form" class="container builder" novalidate>
+      <div class="builder-steps">
+
+        <section class="card" aria-labelledby="step1-title">
+          <h2 id="step1-title"><span class="step-num">1</span><span data-i18n="order.step.cake">Вашата торта</span></h2>
+
+          <div class="cake-picker">
+            <div class="cake-picker-main">
+              <div class="field cake-picker-select">
+                <label for="cake" data-i18n="order.choose">Изберете торта</label>
+                <select id="cake" name="base"></select>
+                <div id="err-cake" class="error" aria-live="polite"></div>
+              </div>
+              <div id="cake-info" class="cake-info-stack" aria-live="polite"></div>
+            </div>
+            <div class="cake-art"><svg id="cake-art-svg" width="260" height="204" aria-hidden="true"></svg></div>
+          </div>
+          <p id="cake-traces" class="hint cake-traces"></p>
+
+          <fieldset>
+            <legend data-i18n="order.shape">Облик</legend>
+            <div class="shape-grid" id="shape-choices"></div>
+          </fieldset>
+
+          <fieldset>
+            <legend data-i18n="order.size">Големина</legend>
+            <div class="choices" id="size-choices"></div>
+          </fieldset>
+
+          <div class="field">
+            <label for="cake-message" data-i18n="order.message">Порака на тортата (по избор)</label>
+            <input id="cake-message" name="message" type="text" maxlength="40" placeholder="на пр. Среќен роденден, Ана!" data-i18n-placeholder="order.message.ph">
+          </div>
+
+          <p id="design-hint" class="notice notice-soft" hidden></p>
+
+          <div id="photo-field" class="field" hidden>
+            <span class="label-like" id="photo-label" data-i18n="order.photo">Слика за инспирација (по избор)</span>
+            <div id="photo-drop" class="drop" aria-labelledby="photo-label">
+              <img id="photo-thumb" class="drop-thumb" alt="" hidden>
+              <div class="drop-body">
+                <p id="photo-hint" data-i18n="order.photo.hint">Видовте торта на Pinterest или Instagram? Прикачете слика (JPG, PNG или WebP) и ќе ја направиме по неа.</p>
+                <div class="drop-actions">
+                  <label class="btn btn-outline btn-small file-label">
+                    <span id="photo-pick-text" data-i18n="order.photo.pick">Избери слика</span>
+                    <input id="photo-input" type="file" accept="image/jpeg,image/png,image/webp">
+                  </label>
+                  <button id="photo-remove" class="btn btn-outline btn-small" type="button" data-i18n="order.photo.remove" hidden>Отстрани</button>
+                </div>
+              </div>
+            </div>
+            <div id="err-photo" class="error" aria-live="polite"></div>
+          </div>
+
+          <div class="field">
+            <label for="cake-notes" id="notes-label" data-i18n="order.notes">Забелешки (по избор)</label>
+            <textarea id="cake-notes" name="notes" maxlength="500" placeholder="Алергии, бои, тема на прославата..." data-i18n-placeholder="order.notes.ph"></textarea>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="step2-title">
+          <h2 id="step2-title"><span class="step-num">2</span><span data-i18n="order.step.when">Кога и како</span></h2>
+
+          <fieldset>
+            <legend data-i18n="order.fulfilment">Како сакате да ја добиете?</legend>
+            <div class="choices choices-block">
+              <label class="choice"><input type="radio" name="fulfilment" value="delivery" checked><span><b data-i18n="order.delivery">Достава до вашата врата</b><small id="delivery-fee-text"></small></span></label>
+              <label class="choice"><input type="radio" name="fulfilment" value="pickup"><span><b data-i18n="order.pickup">Подигнување во слаткарницата</b><small data-i18n="order.pickup.note">Бесплатно</small></span></label>
+            </div>
+          </fieldset>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="order-date" id="date-label" data-i18n="order.date.delivery">Датум на достава</label>
+              <input id="order-date" name="date" type="date" aria-describedby="date-hint">
+              <div id="err-order-date" class="error" aria-live="polite"></div>
+            </div>
+            <div class="field">
+              <label for="order-slot" data-i18n="order.slot">Термин</label>
+              <select id="order-slot" name="slot"></select>
+            </div>
+          </div>
+          <p id="date-hint" class="notice notice-soft"></p>
+        </section>
+
+        <section class="card" aria-labelledby="step3-title">
+          <h2 id="step3-title"><span class="step-num">3</span><span data-i18n="order.step.details">Вашите податоци</span></h2>
+
+          <p id="guest-note" class="notice" hidden><span data-i18n="order.guest.note">Нарачувате како гостин.</span> <a href="account.html" data-i18n="order.guest.signin">Најавете се</a> <span data-i18n="order.guest.note2">за да ги гледате нарачките на едно место и да не ги пишувате податоците секој пат.</span></p>
+
+          <div id="saved-details" class="saved-details" hidden>
+            <p><b data-i18n="order.saved.title">Ги користиме податоците од вашиот профил:</b></p>
+            <p id="saved-summary"></p>
+            <button id="edit-details" class="link-btn" type="button" data-i18n="order.saved.change">Други податоци за оваа нарачка</button>
+          </div>
+
+          <div id="detail-fields">
+            <div class="field-row">
+              <div class="field">
+                <label for="contact-name" data-i18n="order.name">Име и презиме</label>
+                <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="50">
+                <div id="err-contact-name" class="error" aria-live="polite"></div>
+              </div>
+              <div class="field" id="email-field">
+                <label for="contact-email" data-i18n="auth.email">Е-пошта</label>
+                <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="ime@example.com" data-i18n-placeholder="contact.form.email.ph">
+                <div id="err-contact-email" class="error" aria-live="polite"></div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="contact-phone" id="phone-label" data-i18n="order.phone">Телефон</label>
+              <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="+389 70 123 456" aria-describedby="phone-hint">
+              <div id="phone-hint" class="hint" data-i18n="order.phone.hint">Ќе ви се јавиме за да ја потврдиме нарачката.</div>
+              <div id="err-contact-phone" class="error" aria-live="polite"></div>
+            </div>
+            <div class="field" id="address-field">
+              <label for="contact-address" data-i18n="order.address">Адреса за достава</label>
+              <input id="contact-address" name="address" type="text" autocomplete="street-address" maxlength="150" placeholder="Улица и број, стан, Скопје" data-i18n-placeholder="order.address.ph">
+              <div id="err-contact-address" class="error" aria-live="polite"></div>
+            </div>
+            <label id="save-details-row" class="check" hidden><input id="save-details" type="checkbox" checked> <span data-i18n="order.saveDetails">Зачувај ги телефонот и адресата во мојот профил</span></label>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="step4-title">
+          <h2 id="step4-title"><span class="step-num">4</span><span data-i18n="order.step.payment">Плаќање</span></h2>
+          <fieldset>
+            <legend class="sr-legend" data-i18n="order.payment">Како сакате да платите?</legend>
+            <div class="choices choices-block">
+              <label class="choice"><input type="radio" name="payment" value="online" checked><span><b data-i18n="order.pay.online">Картичка, онлајн</b><small data-i18n="order.pay.online.note">Демо: ништо не се наплаќа</small></span></label>
+              <label class="choice"><input type="radio" name="payment" value="card"><span><b id="pay-card-label" data-i18n="order.pay.card.delivery">Картичка при достава</b></span></label>
+              <label class="choice"><input type="radio" name="payment" value="cash"><span><b id="pay-cash-label" data-i18n="order.pay.cash.delivery">Готовина при достава</b></span></label>
+            </div>
+          </fieldset>
+        </section>
+      </div>
+
+      <aside class="builder-aside">
+        <div class="card summary-card">
+          <h2 class="form-section-title" data-i18n="order.summary">Вашата нарачка</h2>
+          <ul id="summary" class="summary-list"></ul>
+          <div class="summary-total"><span data-i18n="order.total">Вкупно</span><span id="total"></span></div>
+          <p class="hint" data-i18n="order.total.hint">Цените се во денари, со вклучен ДДВ.</p>
+          <button id="place-order" class="btn btn-block" type="submit" data-i18n="order.place">Нарачај</button>
+          <div id="order-status" class="status status-error" role="status" aria-live="polite"></div>
+        </div>
+      </aside>
+    </form>
+
+    <section id="order-done" class="container" hidden>
+      <div class="card done-card" tabindex="-1" id="done-card">
+        <svg id="done-cake" class="cake-preview" width="260" height="204" aria-hidden="true"></svg>
+        <h2 data-i18n="order.done.title">Благодариме! Нарачката е примена.</h2>
+        <p data-i18n="order.done.code">Број на нарачката</p>
+        <div id="done-code" class="big-code"></div>
+        <ul id="done-summary" class="summary-list"></ul>
+        <p id="done-track" data-i18n="order.done.track">Нарачката можете да ја видите во вашиот профил.</p>
+        <p id="done-guest" data-i18n="order.done.guest" hidden>Ќе ви се јавиме за потврда. Зачувајте го бројот на нарачката.</p>
+        <div class="actions">
+          <a id="done-account" class="btn" href="account.html" data-i18n="order.done.myorders">Мои нарачки</a>
+          <a id="done-register" class="btn" href="account.html#register" data-i18n="perks.cta" hidden>Создај профил</a>
+          <a class="btn btn-outline" href="order.html" data-i18n="order.done.another">Нарачај уште една</a>
+        </div>
+      </div>
+    </section>
+
+    <p id="order-unavailable" class="container page-note" hidden data-i18n="order.unavailable">Нарачките не се достапни во моментов. Обидете се подоцна.</p>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer.rights">© 2026 Тортара. Сите права се задржани.</p>
+      <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
+      <p><a href="cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" hidden>
+    <p><span data-i18n="cookie.text">Оваа страница користи мали колачиња за да го запомни вашиот јазик и, ако се најавите, да ве одржи најавени. Без следење и реклами.</span> <a href="cookies.html" data-i18n="cookie.more">Политика за колачиња</a></p>
+    <button id="cookie-ok" class="btn" type="button" data-i18n="cookie.ok">Разбирам</button>
+  </div>
+
+  <script src="../localisation/en.js"></script>
+  <script src="../localisation/mk.js"></script>
+  <script src="../js/cookies.js"></script>
+  <script src="../js/i18n.js"></script>
+  <script src="../js/cake-catalog.js"></script>
+  <script src="../js/cake-draw.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/order.js"></script>
+</body>
+</html>
