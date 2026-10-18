@@ -2,7 +2,7 @@
 window.I18N_DICT = window.I18N_DICT || {};
 window.I18N_DICT.mk = {
   /* shared */
-  "brand": "Тортара",
+  "brand": "Tortara Aratrot",
   "nav.home": "Почетна",
   "nav.about": "За нас",
   "nav.contact": "Контакт",
@@ -11,7 +11,7 @@ window.I18N_DICT.mk = {
   "nav.account": "Мој профил",
   "lang.switch": "Промени јазик",
   "lang.current": "МК",
-  "footer.rights": "© 2026 Тортара. Сите права се задржани.",
+  "footer.rights": "© 2026 Tortara Aratrot. Сите права се задржани.",
   "footer.course": "Студентски проект, Деловна пракса 2025/26",
   "footer.cookies": "Политика за колачиња",
 
@@ -21,11 +21,11 @@ window.I18N_DICT.mk = {
   "cookie.ok": "Разбирам",
 
   /* titles */
-  "title.home": "Тортара | Торти до вашата врата",
-  "title.about": "Тортара | За нас",
-  "title.contact": "Тортара | Контакт",
-  "title.cookies": "Тортара | Политика за колачиња",
-  "title.account": "Тортара | Профил",
+  "title.home": "Tortara Aratrot | Торти до вашата врата",
+  "title.about": "Tortara Aratrot | За нас",
+  "title.contact": "Tortara Aratrot | Контакт",
+  "title.cookies": "Tortara Aratrot | Политика за колачиња",
+  "title.account": "Tortara Aratrot | Профил",
 
   /* landing */
   "hero.title": "Тортата од вашите соништа, до вашата врата",
@@ -34,7 +34,7 @@ window.I18N_DICT.mk = {
   "hero.cta2": "Нашите услуги",
 
   "about.title": "За нас",
-  "about.p1": "Тортара е мала слаткарница во Скопје каде секоја торта се пече по нарачка, со вистински путер, свежи јајца и сезонско овошје.",
+  "about.p1": "Tortara Aratrot е мала слаткарница во Скопје каде секоја торта се пече по нарачка, со вистински путер, свежи јајца и сезонско овошје.",
   "about.p2": "Веруваме дека тортата треба да изгледа како вашата идеја, а не како нешто од каталог. Изберете една од нашите или кажете ни ги вкусовите што ги сакате, а ние се грижиме за печењето, украсувањето и доставата.",
 
   "services.title": "Нашите услуги",
@@ -162,7 +162,7 @@ window.I18N_DICT.mk = {
 
   /* cake bakery: build a cake, orders */
   "nav.order": "Нарачај",
-  "title.order": "Тортара | Нарачај торта",
+  "title.order": "Tortara Aratrot | Нарачај торта",
   "money": "{n} ден.",
   "hero.eyebrow": "Печено по нарачка во Скопје",
   "hero.art": "Торта од чоколадо и јагода",

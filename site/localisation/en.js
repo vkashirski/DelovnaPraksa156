@@ -2,7 +2,7 @@
 window.I18N_DICT = window.I18N_DICT || {};
 window.I18N_DICT.en = {
   /* shared */
-  "brand": "Cake'ry",
+  "brand": "Cakery Aratrot",
   "nav.home": "Home",
   "nav.about": "About",
   "nav.contact": "Contact",
@@ -11,7 +11,7 @@ window.I18N_DICT.en = {
   "nav.account": "My account",
   "lang.switch": "Switch language",
   "lang.current": "EN",
-  "footer.rights": "© 2026 Cake'ry. All rights reserved.",
+  "footer.rights": "© 2026 Cakery Aratrot. All rights reserved.",
   "footer.course": "Student project, Business Practice 2025/26",
   "footer.cookies": "Cookie policy",
 
@@ -21,11 +21,11 @@ window.I18N_DICT.en = {
   "cookie.ok": "Got it",
 
   /* titles */
-  "title.home": "Cake'ry | Cakes to your doorstep",
-  "title.about": "Cake'ry | About us",
-  "title.contact": "Cake'ry | Contact",
-  "title.cookies": "Cake'ry | Cookie policy",
-  "title.account": "Cake'ry | Account",
+  "title.home": "Cakery Aratrot | Cakes to your doorstep",
+  "title.about": "Cakery Aratrot | About us",
+  "title.contact": "Cakery Aratrot | Contact",
+  "title.cookies": "Cakery Aratrot | Cookie policy",
+  "title.account": "Cakery Aratrot | Account",
 
   /* landing */
   "hero.title": "Your dream cake, delivered to your doorstep",
@@ -34,7 +34,7 @@ window.I18N_DICT.en = {
   "hero.cta2": "Our services",
 
   "about.title": "About us",
-  "about.p1": "Cake'ry is a small bakery in Skopje where every cake is baked to order, with real butter, fresh eggs and seasonal fruit.",
+  "about.p1": "Cakery Aratrot is a small bakery in Skopje where every cake is baked to order, with real butter, fresh eggs and seasonal fruit.",
   "about.p2": "We believe a cake should look like your idea, not like something from a catalogue. Pick one of ours, or tell us the tastes you want, and we take care of the baking, decorating and delivery.",
 
   "services.title": "Our services",
@@ -162,7 +162,7 @@ window.I18N_DICT.en = {
 
   /* cake bakery: build a cake, orders */
   "nav.order": "Order",
-  "title.order": "Cake'ry | Order a cake",
+  "title.order": "Cakery Aratrot | Order a cake",
   "money": "{n} MKD",
   "hero.eyebrow": "Baked to order in Skopje",
   "hero.art": "A chocolate and strawberry cake",
