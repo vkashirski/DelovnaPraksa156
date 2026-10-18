@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Име на бизнисот | Профил</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-title-key="title.account">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" data-i18n="brand">Име на бизнисот</a>
+
+      <nav id="site-nav" class="site-nav">
+        <a href="../index.html" data-i18n="nav.home">Почетна</a>
+        <a href="team.html" data-i18n="nav.team">Тим</a>
+        <a href="contact.html" data-i18n="nav.contact">Контакт</a>
+        <a id="account-link" href="account.html" aria-current="page" data-i18n="nav.login">Најава</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button id="lang-toggle" class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu" aria-label="Промени јазик" title="Промени јазик">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <ellipse cx="12" cy="12" rx="4" ry="9"/>
+              <path d="M3 12h18M4.5 7.5h15M4.5 16.5h15"/>
+            </svg>
+            <span data-i18n="lang.current">МК</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="lang-menu" class="lang-menu" hidden>
+            <li><button type="button" data-lang="mk" lang="mk">Македонски</button></li>
+            <li><button type="button" data-lang="en" lang="en">English</button></li>
+          </ul>
+        </div>
+        <button id="menu-toggle" class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Отвори мени" data-i18n-aria="nav.menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1 id="auth-heading" data-i18n="auth.login.title">Најава</h1>
+      </div>
+    </section>
+
+    <section id="login-section" class="container auth-wrap" hidden>
+      <div class="card">
+        <form id="login-form" novalidate aria-labelledby="auth-heading">
+          <div class="field">
+            <label for="login-email" data-i18n="auth.email">Е-пошта</label>
+            <input id="login-email" name="email" type="email" autocomplete="email" placeholder="ime@example.com" data-i18n-placeholder="contact.form.email.ph">
+            <div id="err-login-email" class="error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="login-password" data-i18n="auth.password">Лозинка</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password">
+            <div id="err-login-password" class="error" aria-live="polite"></div>
+          </div>
+          <button class="btn btn-block" type="submit" data-i18n="auth.login.submit">Најави се</button>
+          <div id="login-status" class="status status-error" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+      <p class="auth-switch">
+        <span data-i18n="auth.switch.toRegister">Немате профил?</span>
+        <a href="#register" data-i18n="auth.switch.toRegisterLink">Создајте го овде</a>
+      </p>
+    </section>
+
+    <section id="register-section" class="container auth-wrap" hidden>
+      <div class="card">
+        <form id="register-form" novalidate aria-labelledby="auth-heading">
+          <div class="field">
+            <label for="register-email" data-i18n="auth.email">Е-пошта</label>
+            <input id="register-email" name="email" type="email" autocomplete="email" placeholder="ime@example.com" data-i18n-placeholder="contact.form.email.ph">
+            <div id="err-register-email" class="error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="register-password" data-i18n="auth.password">Лозинка</label>
+            <input id="register-password" name="password" type="password" autocomplete="new-password" aria-describedby="password-hint">
+            <div id="password-hint" class="hint" data-i18n="auth.password.hint">Најмалку 8 знаци.</div>
+            <div id="err-register-password" class="error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="register-confirm" data-i18n="auth.confirm">Повторете ја лозинката</label>
+            <input id="register-confirm" name="confirm" type="password" autocomplete="new-password">
+            <div id="err-register-confirm" class="error" aria-live="polite"></div>
+          </div>
+          <button class="btn btn-block" type="submit" data-i18n="auth.register.submit">Создај профил</button>
+          <div id="register-status" class="status status-error" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+      <p class="auth-switch">
+        <span data-i18n="auth.switch.toLogin">Веќе имате профил?</span>
+        <a href="#login" data-i18n="auth.switch.toLoginLink">Најавете се</a>
+      </p>
+    </section>
+
+    <section id="account-view" class="container account-view" hidden>
+      <div class="card">
+        <h2 data-i18n="account.welcome">Добредојдовте</h2>
+        <ul class="info-list">
+          <li>
+            <span class="label" data-i18n="auth.email">Е-пошта</span>
+            <span id="account-email" class="account-email"></span>
+          </li>
+          <li>
+            <span class="label" data-i18n="account.since">Профил од</span>
+            <span id="account-created"></span>
+          </li>
+        </ul>
+        <button id="logout-btn" class="btn btn-outline" type="button" data-i18n="auth.logout">Одјави се</button>
+      </div>
+    </section>
+
+    <p id="auth-unavailable" class="container page-note" hidden data-i18n="auth.unavailable">Профилите не се достапни во моментов. Обидете се подоцна.</p>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer.rights">© 2026 Име на бизнисот. Сите права се задржани.</p>
+      <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
+      <p><a href="cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" hidden>
+    <p><span data-i18n="cookie.text">Оваа страница користи мали колачиња за да го запомни вашиот јазик и, ако се најавите, да ве одржи најавени. Без следење и реклами.</span> <a href="cookies.html" data-i18n="cookie.more">Политика за колачиња</a></p>
+    <button id="cookie-ok" class="btn" type="button" data-i18n="cookie.ok">Разбирам</button>
+  </div>
+
+  <script src="../localisation/en.js"></script>
+  <script src="../localisation/mk.js"></script>
+  <script src="../js/cookies.js"></script>
+  <script src="../js/i18n.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

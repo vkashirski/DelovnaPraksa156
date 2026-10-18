@@ -3,81 +3,140 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Business Name</title>
+  <title>Име на бизнисот | Почетна</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <header>
-    <a class="logo" href="#home">Business Name</a>
-    <nav>
-      <a href="#about" data-i18n="nav_about">За нас</a>
-      <a href="#team" data-i18n="nav_team">Тим</a>
-      <a href="#services" data-i18n="nav_services">Услуги</a>
-      <a href="#news" data-i18n="nav_news">Новости</a>
-      <a href="#contact" data-i18n="nav_contact">Контакт</a>
-    </nav>
-    <div class="lang">
-      <button data-lang="mk">MK</button>
-      <button data-lang="en">EN</button>
+<body data-title-key="title.home">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" data-i18n="brand">Име на бизнисот</a>
+
+      <nav id="site-nav" class="site-nav">
+        <a href="index.html" aria-current="page" data-i18n="nav.home">Почетна</a>
+        <a href="pages/team.html" data-i18n="nav.team">Тим</a>
+        <a href="pages/contact.html" data-i18n="nav.contact">Контакт</a>
+        <a id="account-link" href="pages/account.html" data-i18n="nav.login">Најава</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button id="lang-toggle" class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu" aria-label="Промени јазик" title="Промени јазик">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <ellipse cx="12" cy="12" rx="4" ry="9"/>
+              <path d="M3 12h18M4.5 7.5h15M4.5 16.5h15"/>
+            </svg>
+            <span data-i18n="lang.current">МК</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="lang-menu" class="lang-menu" hidden>
+            <li><button type="button" data-lang="mk" lang="mk">Македонски</button></li>
+            <li><button type="button" data-lang="en" lang="en">English</button></li>
+          </ul>
+        </div>
+        <button id="menu-toggle" class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Отвори мени" data-i18n-aria="nav.menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
   <main>
-    <section id="home" class="hero">
-      <h1 data-i18n="hero_title">Добредојдовте</h1>
-      <p data-i18n="hero_text">Накратко за што станува збор.</p>
-    </section>
-
-    <section id="about">
-      <h2 data-i18n="nav_about">За нас</h2>
-      <p data-i18n="about_text">Основни информации, историја, работно време, локација.</p>
-    </section>
-
-    <section id="team">
-      <h2 data-i18n="nav_team">Тим</h2>
-      <div class="cards">
-        <div class="card"><h3>Име Презиме</h3><p data-i18n="role">Улога</p></div>
-        <div class="card"><h3>Име Презиме</h3><p data-i18n="role">Улога</p></div>
-        <div class="card"><h3>Име Презиме</h3><p data-i18n="role">Улога</p></div>
+    <section class="hero">
+      <div class="container">
+        <h1 data-i18n="hero.title">Мал бизнис со голема грижа</h1>
+        <p data-i18n="hero.subtitle">Привремен текст. Овде во една или две реченици ќе опишеме што работи бизнисот.</p>
+        <div class="actions">
+          <a class="btn" href="#services" data-i18n="hero.cta">Нашите услуги</a>
+          <a class="btn btn-outline" href="pages/contact.html" data-i18n="hero.cta2">Јавете ни се</a>
+        </div>
       </div>
     </section>
 
-    <section id="services">
-      <h2 data-i18n="nav_services">Услуги</h2>
-      <div class="cards">
-        <div class="card"><h3 data-i18n="service">Услуга</h3><p data-i18n="service_text">Опис и цена.</p></div>
-        <div class="card"><h3 data-i18n="service">Услуга</h3><p data-i18n="service_text">Опис и цена.</p></div>
-        <div class="card"><h3 data-i18n="service">Услуга</h3><p data-i18n="service_text">Опис и цена.</p></div>
+    <section id="about" class="section">
+      <div class="container">
+        <h2 data-i18n="about.title">За нас</h2>
+        <div class="about-text">
+          <p data-i18n="about.p1">Привремен текст. Овој дел ја раскажува приказната на бизнисот: кои сме, кога започнавме и во што веруваме.</p>
+          <p data-i18n="about.p2">Привремен текст. Втор параграф со повеќе детали за тоа како работиме и по што се разликуваме.</p>
+        </div>
       </div>
     </section>
 
-    <section id="news">
-      <h2 data-i18n="nav_news">Новости</h2>
-      <article class="card"><h3 data-i18n="post">Објава</h3><p data-i18n="post_text">Содржина на објавата.</p></article>
+    <section id="services" class="section alt">
+      <div class="container">
+        <h2 data-i18n="services.title">Нашите услуги</h2>
+        <div class="grid">
+          <article class="card">
+            <h3 data-i18n="services.s1.title">Прва услуга</h3>
+            <p data-i18n="services.s1.text">Кус опис на првата услуга.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="services.s2.title">Втора услуга</h3>
+            <p data-i18n="services.s2.text">Кус опис на втората услуга.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="services.s3.title">Трета услуга</h3>
+            <p data-i18n="services.s3.text">Кус опис на третата услуга.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <section id="contact">
-      <h2 data-i18n="nav_contact">Контакт</h2>
-      <p>Адреса · Телефон · email@example.com</p>
-      <form id="contact-form" novalidate>
-        <input name="name" type="text" required data-i18n-ph="ph_name" placeholder="Име">
-        <input name="email" type="email" required data-i18n-ph="ph_email" placeholder="Е-пошта">
-        <textarea name="message" rows="4" required data-i18n-ph="ph_message" placeholder="Порака"></textarea>
-        <button type="submit" data-i18n="send">Испрати</button>
-        <p id="form-status" role="status"></p>
-      </form>
+    <section id="news" class="section">
+      <div class="container">
+        <h2 data-i18n="news.title">Новости</h2>
+        <div class="grid">
+          <article class="card">
+            <p class="date" data-i18n="news.n1.date">10 октомври 2026</p>
+            <h3 data-i18n="news.n1.title">Прва новост</h3>
+            <p data-i18n="news.n1.text">Привремен текст за првата објава.</p>
+          </article>
+          <article class="card">
+            <p class="date" data-i18n="news.n2.date">3 октомври 2026</p>
+            <h3 data-i18n="news.n2.title">Втора новост</h3>
+            <p data-i18n="news.n2.text">Привремен текст за втората објава.</p>
+          </article>
+          <article class="card">
+            <p class="date" data-i18n="news.n3.date">24 септември 2026</p>
+            <h3 data-i18n="news.n3.title">Трета новост</h3>
+            <p data-i18n="news.n3.text">Привремен текст за третата објава.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section alt cta">
+      <div class="container">
+        <h2 data-i18n="cta.title">Сакате да дознаете повеќе?</h2>
+        <p data-i18n="cta.text">Пишете ни или посетете не. Со задоволство ќе ве слушнеме.</p>
+        <a class="btn" href="pages/contact.html" data-i18n="cta.button">Контакт податоци</a>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 Business Name · <a href="#cookies" data-i18n="cookie_policy">Политика за колачиња</a></p>
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer.rights">© 2026 Име на бизнисот. Сите права се задржани.</p>
+      <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
+      <p><a href="pages/cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
+    </div>
   </footer>
 
-  <div id="cookie-banner" hidden>
-    <span data-i18n="cookie_text">Користиме колачиња за подобро искуство.</span>
-    <button id="cookie-accept" data-i18n="accept">Прифати</button>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" hidden>
+    <p><span data-i18n="cookie.text">Оваа страница користи мали колачиња за да го запомни вашиот јазик и, ако се најавите, да ве одржи најавени. Без следење и реклами.</span> <a href="pages/cookies.html" data-i18n="cookie.more">Политика за колачиња</a></p>
+    <button id="cookie-ok" class="btn" type="button" data-i18n="cookie.ok">Разбирам</button>
   </div>
 
-  <script src="js/app.js"></script>
+  <script src="localisation/en.js"></script>
+  <script src="localisation/mk.js"></script>
+  <script src="js/cookies.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

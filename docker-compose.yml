@@ -2,4 +2,6 @@ services:
   web:
     build: .
     cpus: 0.25
-    mem_limit: 128m
+    mem_limit: 256m
+    volumes:
+      - .stack-data/data:/app/data

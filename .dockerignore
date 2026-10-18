@@ -1,0 +1,5 @@
+.git
+data/
+.stack-data/
+node_modules/
+README.txt
