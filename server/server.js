@@ -10,6 +10,7 @@
  *   POST  /api/login    { identifier, password }       -> 200 { account }  (identifier = email or username)
  *   POST  /api/logout                                   -> 200 { ok: true }
  *   GET   /api/me                                       -> 200 { account | null }
+ *   PATCH /api/profile  { username?, firstName?, lastName?, phone?, address? } -> 200 { account }  (must be signed in)
  *
  * Environment (all optional):
  *   PORT            default 3000
@@ -40,11 +41,19 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Usernames: 3 to 20 letters (any alphabet), digits, dot, underscore or dash. No "@",
 // so a username can never be confused with an email when signing in.
 const USERNAME_RE = /^[\p{L}\p{N}_.-]{3,20}$/u;
+// First/last name: optional, up to 50 characters, letters plus space . ' -
+const NAME_MAX = 50;
+const NAME_RE = /^[\p{L}\p{M}][\p{L}\p{M} .'\u2019-]*$/u;
+// Phone: digits with optional +, spaces, dashes, slashes, brackets; 6 to 15 digits.
+const PHONE_RE = /^\+?[0-9 ()\/-]{6,24}$/;
+const ADDRESS_MIN = 5;
+const ADDRESS_MAX = 150;
 
 /* ------------------------------------------------------------------ *
  * Storage: one JSON file, written atomically, writes serialized.
  *
- *   { "version": 1, "accounts": [ { id, email, username, passwordHash, createdAt } ] }
+ *   { "version": 1, "accounts": [ { id, email, username, firstName, lastName,
+ *                                    passwordHash, createdAt } ] }
  *
  * To store more details later, add fields to the account object where it
  * is created (createAccount) and to publicAccount() if the browser should
@@ -64,6 +73,10 @@ function loadDb() {
     // Older records may lack newer fields: fill in defaults.
     db.accounts.forEach((acc) => {
       if (acc.username === undefined) acc.username = null;
+      if (acc.firstName === undefined) acc.firstName = "";
+      if (acc.lastName === undefined) acc.lastName = "";
+      if (acc.phone === undefined) acc.phone = "";
+      if (acc.address === undefined) acc.address = "";
     });
   } else {
     fs.writeFileSync(ACCOUNTS_FILE, JSON.stringify(db, null, 2) + "\n");
@@ -172,6 +185,10 @@ function publicAccount(acc) {
     id: acc.id,
     email: acc.email,
     username: acc.username,
+    firstName: acc.firstName,
+    lastName: acc.lastName,
+    phone: acc.phone || "",
+    address: acc.address || "",
     createdAt: acc.createdAt,
   };
 }
@@ -246,6 +263,29 @@ function usernameTaken(username, exceptId) {
   return db.accounts.some((a) => a.id !== exceptId && a.username && a.username.toLowerCase() === lower);
 }
 
+// Returns the cleaned name, or null when the value is not acceptable. "" is allowed.
+function cleanName(value) {
+  if (typeof value !== "string") return null;
+  const name = value.trim().replace(/\s+/g, " ").normalize("NFC");
+  if (name === "") return "";
+  return name.length <= NAME_MAX && NAME_RE.test(name) ? name : null;
+}
+
+function cleanPhone(value, allowEmpty) {
+  if (typeof value !== "string") return null;
+  const phone = value.trim().replace(/\s+/g, " ");
+  if (phone === "") return allowEmpty ? "" : null;
+  const digits = phone.replace(/\D/g, "").length;
+  return PHONE_RE.test(phone) && digits >= 6 && digits <= 15 ? phone : null;
+}
+
+function cleanAddress(value, allowEmpty) {
+  if (typeof value !== "string") return null;
+  const address = value.replace(/[\u0000-\u001f\u007f]/g, " ").trim().replace(/\s+/g, " ").normalize("NFC");
+  if (address === "") return allowEmpty ? "" : null;
+  return address.length >= ADDRESS_MIN && address.length <= ADDRESS_MAX ? address : null;
+}
+
 function saveFailed(res, err) {
   console.error("Could not save accounts:", err);
   return sendJson(res, 500, { error: "server_error" });
@@ -283,6 +323,10 @@ async function handleApi(req, res, pathname) {
         id: crypto.randomUUID(),
         email: email,
         username: username,
+        firstName: "",
+        lastName: "",
+        phone: "",
+        address: "",
         passwordHash: hashPassword(password),
         createdAt: new Date().toISOString(),
       };
@@ -314,8 +358,50 @@ async function handleApi(req, res, pathname) {
       });
     }
 
+    if (pathname === "/api/profile" && req.method === "PATCH") {
+      const account = readSession(req);
+      if (!account) return sendJson(res, 401, { error: "unauthorized" });
+      const body = await readJsonBody(req);
+      const next = {
+        username: account.username, firstName: account.firstName, lastName: account.lastName,
+        phone: account.phone || "", address: account.address || "",
+      };
+
+      if ("username" in body) {
+        const username = cleanUsername(body.username);
+        if (!USERNAME_RE.test(username)) return sendJson(res, 400, { error: "invalid_username" });
+        if (usernameTaken(username, account.id)) return sendJson(res, 409, { error: "username_taken" });
+        next.username = username;
+      }
+      ["firstName", "lastName"].forEach((field) => {
+        if (field in body) next[field] = cleanName(body[field]);
+      });
+      if (next.firstName === null || next.lastName === null) return sendJson(res, 400, { error: "invalid_name" });
+      if ("phone" in body) {
+        next.phone = cleanPhone(body.phone, true);
+        if (next.phone === null) return sendJson(res, 400, { error: "invalid_phone" });
+      }
+      if ("address" in body) {
+        next.address = cleanAddress(body.address, true);
+        if (next.address === null) return sendJson(res, 400, { error: "invalid_address" });
+      }
+
+      const previous = {
+        username: account.username, firstName: account.firstName, lastName: account.lastName,
+        phone: account.phone, address: account.address,
+      };
+      Object.assign(account, next);
+      try {
+        await saveDb();
+      } catch (e) {
+        Object.assign(account, previous);
+        return saveFailed(res, e);
+      }
+      return sendJson(res, 200, { account: publicAccount(account) });
+    }
+
     if (pathname.startsWith("/api/")) {
-      const known = ["/api/me", "/api/logout", "/api/register", "/api/login"];
+      const known = ["/api/me", "/api/logout", "/api/register", "/api/login", "/api/profile"];
       return sendJson(res, known.includes(pathname) ? 405 : 404, { error: known.includes(pathname) ? "method_not_allowed" : "not_found" });
     }
   } catch (err) {

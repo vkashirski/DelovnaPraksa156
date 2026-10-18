@@ -43,6 +43,18 @@
   else drawCakes();
   document.addEventListener("languagechange", drawCakes);
 
+  /* ---- "Why an account?" is only for visitors who are not signed in ---- */
+  var perks = document.getElementById("account-perks");
+  if (perks) {
+    perks.hidden = true;   // hidden until we know nobody is signed in (no flash for members)
+    document.addEventListener("accountchange", function (e) {
+      perks.hidden = !!(e.detail && e.detail.account);
+    });
+    setTimeout(function () {   // if the account check never answers, show it anyway
+      if (!(window.Account && window.Account.ready)) perks.hidden = false;
+    }, 4000);
+  }
+
   /* ---- gallery: slow endless strip you can also drag (or move with the arrow keys) ----
      The photos are copied once so it loops without a jump. Visitors who prefer reduced
      motion get a plain strip they scroll by hand. */

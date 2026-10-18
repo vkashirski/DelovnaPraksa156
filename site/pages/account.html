@@ -17,10 +17,13 @@
         <a href="../index.html" data-i18n="nav.home">Почетна</a>
         <a href="about.html" data-i18n="nav.about">За нас</a>
         <a href="contact.html" data-i18n="nav.contact">Контакт</a>
-        <a id="nav-account" href="account.html" aria-current="page" data-i18n="nav.login">Најава</a>
       </nav>
 
       <div class="header-actions">
+        <a id="account-link" class="account-chip" href="account.html" aria-current="page">
+          <span id="account-avatar" class="avatar avatar-guest" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+          <span id="account-label" class="account-chip-label" data-i18n="nav.login">Најава</span>
+        </a>
         <div class="lang-switch">
           <button id="lang-toggle" class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu" aria-label="Промени јазик" title="Промени јазик">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -76,6 +79,7 @@
     </section>
 
     <section id="register-section" class="container auth-wrap" hidden>
+      <p class="auth-why" data-i18n="auth.register.why">Со профил ги гледате сите ваши нарачки на едно место, ги зачувувате податоците за достава и во иднина можете да добивате попусти како редовен клиент.</p>
       <div class="card">
         <form id="register-form" novalidate aria-labelledby="auth-heading">
           <div class="field">
@@ -110,11 +114,52 @@
       </p>
     </section>
 
-    <section id="account-view" class="container auth-wrap" hidden>
+    <section id="account-view" class="container account-layout" hidden>
       <div class="card">
-        <p><span data-i18n="account.signedInAs">Најавени сте како</span> <b id="account-username"></b></p>
-        <p id="account-email" class="account-email"></p>
-        <button id="logout-btn" class="btn btn-outline btn-block" type="button" data-i18n="auth.logout">Одјави се</button>
+        <div class="profile-head">
+          <span id="profile-avatar" class="avatar avatar-lg" aria-hidden="true"></span>
+          <div class="profile-id">
+            <div id="profile-name" class="profile-name"></div>
+            <div id="account-email" class="account-email"></div>
+          </div>
+        </div>
+
+        <h2 data-i18n="account.profile.title">Податоци за профилот</h2>
+        <form id="profile-form" novalidate>
+          <div class="field">
+            <label for="profile-username" data-i18n="auth.username">Корисничко име</label>
+            <input id="profile-username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20">
+            <div id="err-profile-username" class="error" aria-live="polite"></div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="profile-first" data-i18n="account.firstName">Име</label>
+              <input id="profile-first" name="firstName" type="text" autocomplete="given-name" maxlength="50">
+              <div id="err-profile-first" class="error" aria-live="polite"></div>
+            </div>
+            <div class="field">
+              <label for="profile-last" data-i18n="account.lastName">Презиме</label>
+              <input id="profile-last" name="lastName" type="text" autocomplete="family-name" maxlength="50">
+              <div id="err-profile-last" class="error" aria-live="polite"></div>
+            </div>
+          </div>
+          <p class="form-section-title" data-i18n="account.delivery.title">За достава</p>
+          <p class="hint" data-i18n="account.delivery.hint">Ако ги зачувате, нема да ги пишувате при секоја нарачка.</p>
+          <div class="field">
+            <label for="profile-phone" data-i18n="order.phone">Телефон</label>
+            <input id="profile-phone" name="phone" type="tel" autocomplete="tel" placeholder="+389 70 123 456">
+            <div id="err-profile-phone" class="error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="profile-address" data-i18n="order.address">Адреса за достава</label>
+            <input id="profile-address" name="address" type="text" autocomplete="street-address" maxlength="150" placeholder="Улица и број, стан, Скопје" data-i18n-placeholder="order.address.ph">
+            <div id="err-profile-address" class="error" aria-live="polite"></div>
+          </div>
+          <button class="btn" type="submit" data-i18n="account.save">Зачувај промени</button>
+          <div id="profile-status" class="status" role="status" aria-live="polite"></div>
+        </form>
+
+        <p class="account-meta"><span data-i18n="account.since">Профил создаден</span>: <span id="account-created"></span></p>
       </div>
     </section>
 
