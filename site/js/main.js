@@ -1,4 +1,4 @@
-/* Page behaviour: mobile menu, cookie banner, contact form validation. */
+/* Page behaviour: mobile menu, cookie banner, decorative cakes, contact form validation. */
 (function () {
   function t(key) { return window.I18n ? window.I18n.t(key) : key; }
 
@@ -24,6 +24,24 @@
       });
     }
   }
+
+  /* ---- decorative cakes: <svg data-cake='{"layers":[...]}' data-cake-message="i18n key"> ---- */
+  function drawCakes() {
+    if (!window.CakeDraw) return;
+    var nodes = document.querySelectorAll("svg[data-cake]");
+    for (var i = 0; i < nodes.length; i++) {
+      try {
+        var cake = JSON.parse(nodes[i].getAttribute("data-cake"));
+        var msgKey = nodes[i].getAttribute("data-cake-message");
+        if (msgKey) cake.message = t(msgKey);
+        window.CakeDraw.draw(nodes[i], cake);
+      } catch (e) { /* leave it empty */ }
+    }
+  }
+  // After DOMContentLoaded, so the i18n engine has picked the saved language first.
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", drawCakes);
+  else drawCakes();
+  document.addEventListener("languagechange", drawCakes);
 
   /* ---- contact form (validation only, not sent anywhere yet) ---- */
   var form = document.getElementById("contact-form");

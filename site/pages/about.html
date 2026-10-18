@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тортара | За нас</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-title-key="title.about">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" data-i18n="brand">Тортара</a>
+
+      <nav id="site-nav" class="site-nav">
+        <a href="../index.html" data-i18n="nav.home">Почетна</a>
+        <a href="about.html" aria-current="page" data-i18n="nav.about">За нас</a>
+        <a href="contact.html" data-i18n="nav.contact">Контакт</a>
+        <a id="nav-account" href="account.html" data-i18n="nav.login">Најава</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switch">
+          <button id="lang-toggle" class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="lang-menu" aria-label="Промени јазик" title="Промени јазик">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <ellipse cx="12" cy="12" rx="4" ry="9"/>
+              <path d="M3 12h18M4.5 7.5h15M4.5 16.5h15"/>
+            </svg>
+            <span data-i18n="lang.current">МК</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul id="lang-menu" class="lang-menu" hidden>
+            <li><button type="button" data-lang="mk" lang="mk">Македонски</button></li>
+            <li><button type="button" data-lang="en" lang="en">English</button></li>
+          </ul>
+        </div>
+        <button id="menu-toggle" class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Отвори мени" data-i18n-aria="nav.menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1 data-i18n="about.title">За нас</h1>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="about-text about-centered">
+        <p data-i18n="about.p1">Тортара е мала слаткарница во Скопје каде секоја торта се пече по нарачка, со вистински путер, свежи јајца и сезонско овошје.</p>
+        <p data-i18n="about.p2">Веруваме дека тортата треба да изгледа како вашата идеја, а не како нешто од каталог. Изберете една од нашите или кажете ни ги вкусовите што ги сакате, а ние се грижиме за печењето, украсувањето и доставата.</p>
+      </div>
+    </section>
+
+    <section id="team" class="section alt scallop team-section">
+      <div class="container">
+        <h2 data-i18n="team.title">Нашиот тим</h2>
+        <p class="section-lead" data-i18n="team.subtitle">Луѓето зад проектот.</p>
+      <div class="team-grid">
+        <article class="card member">
+          <img src="../assets/img/cakeVasil.png" width="140" height="140" alt="Слика на торта на членот на тимот" data-i18n-alt="team.photo.alt">
+          <h3 data-i18n="team.m1.name">Васил</h3>
+          <p data-i18n="team.role">Член на тимот</p>
+          <p class="member-id"><span data-i18n="team.id">Индекс</span>: 163106</p>
+        </article>
+        <article class="card member">
+          <img src="../assets/img/cakeViktor.png" width="140" height="140" alt="Слика на торта на членот на тимот" data-i18n-alt="team.photo.alt">
+          <h3 data-i18n="team.m2.name">Виктор</h3>
+          <p data-i18n="team.role">Член на тимот</p>
+          <p class="member-id"><span data-i18n="team.id">Индекс</span>: 173274</p>
+        </article>
+        <article class="card member">
+          <img src="../assets/img/cakeDavid.png" width="140" height="140" alt="Слика на торта на членот на тимот" data-i18n-alt="team.photo.alt">
+          <h3 data-i18n="team.m3.name">Давид</h3>
+          <p data-i18n="team.role">Член на тимот</p>
+          <p class="member-id"><span data-i18n="team.id">Индекс</span>: 237013</p>
+        </article>
+      </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer.rights">© 2026 Тортара. Сите права се задржани.</p>
+      <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
+      <p><a href="cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" hidden>
+    <p><span data-i18n="cookie.text">Оваа страница користи мали колачиња за да го запомни вашиот јазик и, ако се најавите, да ве одржи најавени. Без следење и реклами.</span> <a href="cookies.html" data-i18n="cookie.more">Политика за колачиња</a></p>
+    <button id="cookie-ok" class="btn" type="button" data-i18n="cookie.ok">Разбирам</button>
+  </div>
+
+  <script src="../localisation/en.js"></script>
+  <script src="../localisation/mk.js"></script>
+  <script src="../js/cookies.js"></script>
+  <script src="../js/i18n.js"></script>
+  <script src="../js/cake-draw.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

@@ -6,10 +6,10 @@
  * so the file can never be downloaded by visitors.
  *
  * API (all JSON):
- *   POST /api/register  { email, password }  -> 201 { account }   (also logs in)
- *   POST /api/login     { email, password }  -> 200 { account }
- *   POST /api/logout                          -> 200 { ok: true }
- *   GET  /api/me                              -> 200 { account | null }
+ *   POST  /api/register { email, username, password }  -> 201 { account }  (also signs in)
+ *   POST  /api/login    { identifier, password }       -> 200 { account }  (identifier = email or username)
+ *   POST  /api/logout                                   -> 200 { ok: true }
+ *   GET   /api/me                                       -> 200 { account | null }
  *
  * Environment (all optional):
  *   PORT            default 3000
@@ -37,11 +37,14 @@ const PASSWORD_MIN = 8;
 const PASSWORD_MAX = 200;
 const EMAIL_MAX = 254;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Usernames: 3 to 20 letters (any alphabet), digits, dot, underscore or dash. No "@",
+// so a username can never be confused with an email when signing in.
+const USERNAME_RE = /^[\p{L}\p{N}_.-]{3,20}$/u;
 
 /* ------------------------------------------------------------------ *
  * Storage: one JSON file, written atomically, writes serialized.
  *
- *   { "version": 1, "accounts": [ { id, email, passwordHash, createdAt } ] }
+ *   { "version": 1, "accounts": [ { id, email, username, passwordHash, createdAt } ] }
  *
  * To store more details later, add fields to the account object where it
  * is created (createAccount) and to publicAccount() if the browser should
@@ -58,20 +61,28 @@ function loadDb() {
       throw new Error("accounts.json has an unexpected format");
     }
     db = parsed;
+    // Older records may lack newer fields: fill in defaults.
+    db.accounts.forEach((acc) => {
+      if (acc.username === undefined) acc.username = null;
+    });
   } else {
     fs.writeFileSync(ACCOUNTS_FILE, JSON.stringify(db, null, 2) + "\n");
   }
 }
 
-function saveDb() {
-  const json = JSON.stringify(db, null, 2) + "\n";
-  writeQueue = writeQueue.then(async () => {
-    const tmp = ACCOUNTS_FILE + ".tmp";
+// Atomic write (tmp file + rename). All writes go through one queue.
+function writeJson(file, data) {
+  const json = JSON.stringify(data, null, 2) + "\n";
+  const run = writeQueue.then(async () => {
+    const tmp = file + ".tmp";
     await fsp.writeFile(tmp, json);
-    await fsp.rename(tmp, ACCOUNTS_FILE);
+    await fsp.rename(tmp, file);
   });
-  return writeQueue;
+  writeQueue = run.catch(() => {});
+  return run;
 }
+
+function saveDb() { return writeJson(ACCOUNTS_FILE, db); }
 
 function loadSecret() {
   if (process.env.SESSION_SECRET) return process.env.SESSION_SECRET;
@@ -157,7 +168,12 @@ function sessionCookie(req, value, maxAgeSeconds) {
  * Helpers
  * ------------------------------------------------------------------ */
 function publicAccount(acc) {
-  return { id: acc.id, email: acc.email, createdAt: acc.createdAt };
+  return {
+    id: acc.id,
+    email: acc.email,
+    username: acc.username,
+    createdAt: acc.createdAt,
+  };
 }
 
 function sendJson(res, status, body, headers) {
@@ -170,7 +186,8 @@ function sendJson(res, status, body, headers) {
   res.end(data);
 }
 
-function readJsonBody(req) {
+function readJsonBody(req, maxBytes) {
+  const limit = maxBytes || MAX_BODY;
   return new Promise((resolve, reject) => {
     const type = (req.headers["content-type"] || "").split(";")[0].trim();
     if (type !== "application/json") return reject({ status: 415, error: "unsupported_media_type" });
@@ -178,7 +195,7 @@ function readJsonBody(req) {
     const chunks = [];
     req.on("data", (chunk) => {
       size += chunk.length;
-      if (size > MAX_BODY) {
+      if (size > limit) {
         reject({ status: 413, error: "too_large" });
         req.destroy();
         return;
@@ -220,6 +237,20 @@ function normalizeEmail(value) {
   return typeof value === "string" ? value.trim().toLowerCase() : "";
 }
 
+function cleanUsername(value) {
+  return typeof value === "string" ? value.trim().normalize("NFC") : "";
+}
+
+function usernameTaken(username, exceptId) {
+  const lower = username.toLowerCase();
+  return db.accounts.some((a) => a.id !== exceptId && a.username && a.username.toLowerCase() === lower);
+}
+
+function saveFailed(res, err) {
+  console.error("Could not save accounts:", err);
+  return sendJson(res, 500, { error: "server_error" });
+}
+
 /* ------------------------------------------------------------------ *
  * API routes
  * ------------------------------------------------------------------ */
@@ -238,16 +269,20 @@ async function handleApi(req, res, pathname) {
       if (tooManyAttempts(req, 10, 15 * 60 * 1000)) return sendJson(res, 429, { error: "too_many_attempts" });
       const body = await readJsonBody(req);
       const email = normalizeEmail(body.email);
+      const username = cleanUsername(body.username);
       const password = typeof body.password === "string" ? body.password : "";
 
       if (!email || email.length > EMAIL_MAX || !EMAIL_RE.test(email)) return sendJson(res, 400, { error: "invalid_email" });
+      if (!USERNAME_RE.test(username)) return sendJson(res, 400, { error: "invalid_username" });
       if (password.length < PASSWORD_MIN) return sendJson(res, 400, { error: "password_short" });
       if (password.length > PASSWORD_MAX) return sendJson(res, 400, { error: "password_long" });
       if (db.accounts.some((a) => a.email === email)) return sendJson(res, 409, { error: "email_taken" });
+      if (usernameTaken(username)) return sendJson(res, 409, { error: "username_taken" });
 
       const account = {
         id: crypto.randomUUID(),
         email: email,
+        username: username,
         passwordHash: hashPassword(password),
         createdAt: new Date().toISOString(),
       };
@@ -256,8 +291,7 @@ async function handleApi(req, res, pathname) {
         await saveDb();
       } catch (e) {
         db.accounts.pop();
-        console.error("Could not save accounts:", e);
-        return sendJson(res, 500, { error: "server_error" });
+        return saveFailed(res, e);
       }
       return sendJson(res, 201, { account: publicAccount(account) }, {
         "Set-Cookie": sessionCookie(req, makeSessionToken(account.id), SESSION_DAYS * 86400),
@@ -267,9 +301,12 @@ async function handleApi(req, res, pathname) {
     if (pathname === "/api/login" && req.method === "POST") {
       if (tooManyAttempts(req, 20, 15 * 60 * 1000)) return sendJson(res, 429, { error: "too_many_attempts" });
       const body = await readJsonBody(req);
-      const email = normalizeEmail(body.email);
+      const rawId = typeof body.identifier === "string" ? body.identifier : body.email;
+      const identifier = typeof rawId === "string" ? rawId.trim().normalize("NFC").toLowerCase() : "";
       const password = typeof body.password === "string" ? body.password.slice(0, PASSWORD_MAX) : "";
-      const account = db.accounts.find((a) => a.email === email);
+      const account = identifier.includes("@")
+        ? db.accounts.find((a) => a.email === identifier)
+        : db.accounts.find((a) => a.username && a.username.toLowerCase() === identifier);
       const ok = verifyPassword(password, account ? account.passwordHash : DUMMY_HASH) && !!account;
       if (!ok) return sendJson(res, 401, { error: "invalid_credentials" });
       return sendJson(res, 200, { account: publicAccount(account) }, {
@@ -368,7 +405,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log("Site running on port " + PORT + ", accounts file: " + ACCOUNTS_FILE);
+  console.log("Site running on port " + PORT + ", data folder: " + DATA_DIR);
 });
 
 function shutdown() {

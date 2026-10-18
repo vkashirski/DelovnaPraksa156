@@ -2,3 +2,4 @@ data/
 .stack-data/
 node_modules/
 CONTINUE.md
+_versions/

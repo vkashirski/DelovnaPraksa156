@@ -1,16 +1,20 @@
 /*
- * Accounts on the client.
- *  - Every page: asks the server who is logged in (GET /api/me) and switches the
- *    nav link between "Log in" and "My account".
- *  - Account page only: sign-up form, log-in form, log-out button.
+ * Accounts on the client (first version: create an account, sign in, sign out).
+ *  - Every page: asks the server who is signed in (GET /api/me). The "Sign in" link in the
+ *    menu becomes "My account" once you are signed in.
+ *  - Account page only: sign-in form, create-account form and, when signed in, who you are
+ *    plus a "Sign out" button.
  * All text comes from the i18n dictionaries, so it follows the language switch.
  */
 (function () {
   function t(key) { return window.I18n ? window.I18n.t(key) : key; }
   function $(id) { return document.getElementById(id); }
 
-  var link = $("account-link");
-  var current = null; // logged-in account, or null
+  // Same rules as the server (server/server.js). The server stays the final judge.
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var USERNAME_RE = /^[\p{L}\p{N}_.-]{3,20}$/u;
+
+  var current = null; // signed-in account, or null
   var unavailable = false;
 
   /* ---- talking to the API ---- */
@@ -22,14 +26,30 @@
     }
     return fetch(url, opts).then(function (res) {
       return res.json().catch(function () { return {}; }).then(function (data) {
-        if (!res.ok) { var e = new Error(data.error || "server_error"); e.code = data.error || "server_error"; throw e; }
+        if (!res.ok) {
+          var e = new Error(data.error || "server_error");
+          e.code = data.error || "server_error";
+          throw e;
+        }
         return data;
       });
     });
   }
 
-  /* ---- nav link ---- */
+  var KNOWN_ERRORS = ["invalid_email", "invalid_username", "username_taken",
+    "password_short", "password_long", "email_taken", "invalid_credentials",
+    "too_many_attempts", "server_error"];
+  function codeToKey(code) {
+    return "auth.err." + (KNOWN_ERRORS.indexOf(code) !== -1 ? code : "server_error");
+  }
+
+  function shortName(acc) {
+    return acc.username || (acc.email || "").split("@")[0] || "?";
+  }
+
+  /* ---- the link in the menu ---- */
   function renderNav() {
+    var link = $("nav-account");
     if (!link) return;
     var key = current ? "nav.account" : "nav.login";
     link.setAttribute("data-i18n", key);
@@ -42,8 +62,8 @@
   var heading = $("auth-heading");
   var view = $("account-view");
   var note = $("auth-unavailable");
-  var errorKeys = {};    // element id -> i18n key currently shown
-  var statusKeys = {};   // status element id -> i18n key currently shown
+  var errorKeys = {};   // element id -> i18n key currently shown
+  var statusKeys = {};  // status element id -> i18n key currently shown
 
   function setText(id, key) {
     var el = $(id);
@@ -62,24 +82,7 @@
     setText(id, key);
   }
 
-  var KNOWN_ERRORS = ["invalid_email", "password_short", "password_long", "email_taken",
-    "invalid_credentials", "too_many_attempts", "server_error"];
-  function codeToKey(code) {
-    return "auth.err." + (KNOWN_ERRORS.indexOf(code) !== -1 ? code : "server_error");
-  }
-
-  // Formatted by hand: older browsers ship without Macedonian locale data.
-  function formatDate(iso) {
-    var d = new Date(iso);
-    if (isNaN(d)) return "";
-    var en = window.I18n && window.I18n.lang === "en";
-    var months = en
-      ? ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-      : ["јануари", "февруари", "март", "април", "мај", "јуни", "јули", "август", "септември", "октомври", "ноември", "декември"];
-    return d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear();
-  }
-
-  // Which form is showing: "login" (default) or "register" (URL hash #register).
+  // Which form is showing when signed out: "login" (default) or "register" (URL hash #register).
   function mode() { return location.hash === "#register" ? "register" : "login"; }
 
   function renderAccountPage() {
@@ -93,8 +96,8 @@
     heading.setAttribute("data-i18n", key);
     heading.textContent = t(key);
     if (current) {
+      $("account-username").textContent = shortName(current);
       $("account-email").textContent = current.email;
-      $("account-created").textContent = formatDate(current.createdAt);
     }
   }
 
@@ -106,48 +109,53 @@
   }
 
   function setAccount(acc) {
+    var changed = !!current !== !!acc;
     current = acc || null;
+    // After signing in or out, go back to the default (Sign in) view: drop "#register".
+    if (changed && location.hash && window.history && history.replaceState) {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
     rerender();
   }
-
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   function setBusy(form, busy) {
     var btn = form.querySelector("button[type=submit]");
     if (btn) btn.disabled = busy;
   }
 
+  /* ---- sign in ---- */
   function initLogin() {
     var form = $("login-form");
     if (!form) return;
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var email = form.elements["email"].value.trim();
+      var identifier = form.elements["identifier"].value.trim();
       var password = form.elements["password"].value;
       var ok = true;
 
-      var emailOk = EMAIL_RE.test(email);
-      fieldError("login-email", emailOk ? null : "auth.err.invalid_email");
-      if (!emailOk) ok = false;
+      fieldError("login-email", identifier ? null : "auth.err.identifier_required");
+      if (!identifier) ok = false;
       fieldError("login-password", password ? null : "auth.err.password_required");
       if (!password) ok = false;
       status("login-status", null);
       if (!ok) return;
 
       setBusy(form, true);
-      api("POST", "/api/login", { email: email, password: password })
+      api("POST", "/api/login", { identifier: identifier, password: password })
         .then(function (data) { form.reset(); setAccount(data.account); })
         .catch(function (err) { status("login-status", codeToKey(err.code)); })
         .then(function () { setBusy(form, false); });
     });
   }
 
+  /* ---- create account ---- */
   function initRegister() {
     var form = $("register-form");
     if (!form) return;
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var email = form.elements["email"].value.trim();
+      var username = form.elements["username"].value.trim();
       var password = form.elements["password"].value;
       var confirm = form.elements["confirm"].value;
       var ok = true;
@@ -155,6 +163,9 @@
       var emailOk = EMAIL_RE.test(email);
       fieldError("register-email", emailOk ? null : "auth.err.invalid_email");
       if (!emailOk) ok = false;
+      var userOk = USERNAME_RE.test(username);
+      fieldError("register-username", userOk ? null : "auth.err.invalid_username");
+      if (!userOk) ok = false;
       fieldError("register-password", password.length >= 8 ? null : "auth.err.password_short");
       if (password.length < 8) ok = false;
       var matches = password === confirm;
@@ -164,13 +175,20 @@
       if (!ok) return;
 
       setBusy(form, true);
-      api("POST", "/api/register", { email: email, password: password })
+      api("POST", "/api/register", { email: email, username: username, password: password })
         .then(function (data) { form.reset(); setAccount(data.account); })
-        .catch(function (err) { status("register-status", codeToKey(err.code)); })
+        .catch(function (err) {
+          if (err.code === "username_taken" || err.code === "invalid_username") {
+            fieldError("register-username", codeToKey(err.code));
+          } else {
+            status("register-status", codeToKey(err.code));
+          }
+        })
         .then(function () { setBusy(form, false); });
     });
   }
 
+  /* ---- sign out ---- */
   function initLogout() {
     var btn = $("logout-btn");
     if (!btn) return;
@@ -194,12 +212,12 @@
     if (location.protocol === "file:") {
       // Opened straight from disk: there is no server to talk to.
       unavailable = true;
-      rerender();
+      setAccount(null);
       return;
     }
     api("GET", "/api/me")
       .then(function (data) { setAccount(data.account); })
-      .catch(function () { unavailable = true; rerender(); });
+      .catch(function () { unavailable = true; setAccount(null); });
   }
 
   if (document.readyState === "loading") {

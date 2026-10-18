@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Име на бизнисот | Контакт</title>
+  <title>Тортара | Контакт</title>
   <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -11,13 +11,13 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="../index.html" data-i18n="brand">Име на бизнисот</a>
+      <a class="brand" href="../index.html" data-i18n="brand">Тортара</a>
 
       <nav id="site-nav" class="site-nav">
         <a href="../index.html" data-i18n="nav.home">Почетна</a>
-        <a href="team.html" data-i18n="nav.team">Тим</a>
+        <a href="about.html" data-i18n="nav.about">За нас</a>
         <a href="contact.html" aria-current="page" data-i18n="nav.contact">Контакт</a>
-        <a id="account-link" href="account.html" data-i18n="nav.login">Најава</a>
+        <a id="nav-account" href="account.html" data-i18n="nav.login">Најава</a>
       </nav>
 
       <div class="header-actions">
@@ -49,7 +49,7 @@
     <section class="page-head">
       <div class="container">
         <h1 data-i18n="contact.title">Контакт</h1>
-        <p data-i18n="contact.subtitle">Обратете ни се на начин што ви одговара.</p>
+        <p data-i18n="contact.subtitle">Прашања за торта, поголема прослава или нарачка? Со задоволство ќе помогнеме.</p>
       </div>
     </section>
 
@@ -59,19 +59,19 @@
         <ul class="info-list">
           <li>
             <span class="label" data-i18n="contact.address.label">Адреса</span>
-            <span data-i18n="contact.address.value">Улица број 1, Скопје, Северна Македонија</span>
+            <span data-i18n="contact.address.value">Слатка Улица 42, Скопје, Северна Македонија (слаткарница и подигнување)</span>
           </li>
           <li>
             <span class="label" data-i18n="contact.phone.label">Телефон</span>
-            <span data-i18n="contact.phone.value">+389 70 000 000</span>
+            <span data-i18n="contact.phone.value">+389 70 482 915</span>
           </li>
           <li>
             <span class="label" data-i18n="contact.email.label">Е-пошта</span>
-            <span data-i18n="contact.email.value">info@example.com</span>
+            <span data-i18n="contact.email.value">hello@tortara.mk</span>
           </li>
           <li>
             <span class="label" data-i18n="contact.hours.label">Работно време</span>
-            <span data-i18n="contact.hours.value">Пон до пет, 9:00 до 17:00</span>
+            <span data-i18n="contact.hours.value">Пон до саб, 8:00 до 20:00</span>
           </li>
         </ul>
       </div>
@@ -91,7 +91,7 @@
           </div>
           <div class="field">
             <label for="message" data-i18n="contact.form.message">Порака</label>
-            <textarea id="message" name="message" placeholder="Како можеме да помогнеме?" data-i18n-placeholder="contact.form.message.ph"></textarea>
+            <textarea id="message" name="message" placeholder="Кажете ни за вашата торта или прославата." data-i18n-placeholder="contact.form.message.ph"></textarea>
             <div id="err-message" class="error" aria-live="polite"></div>
           </div>
           <button class="btn" type="submit" data-i18n="contact.form.submit">Испрати</button>
@@ -103,7 +103,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p data-i18n="footer.rights">© 2026 Име на бизнисот. Сите права се задржани.</p>
+      <p data-i18n="footer.rights">© 2026 Тортара. Сите права се задржани.</p>
       <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
       <p><a href="cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
     </div>
@@ -118,6 +118,7 @@
   <script src="../localisation/mk.js"></script>
   <script src="../js/cookies.js"></script>
   <script src="../js/i18n.js"></script>
+  <script src="../js/cake-draw.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/auth.js"></script>
 </body>

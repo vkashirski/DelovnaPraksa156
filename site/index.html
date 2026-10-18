@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Име на бизнисот | Почетна</title>
+  <title>Тортара | Торти до вашата врата</title>
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -11,13 +11,13 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html" data-i18n="brand">Име на бизнисот</a>
+      <a class="brand" href="index.html" data-i18n="brand">Тортара</a>
 
       <nav id="site-nav" class="site-nav">
         <a href="index.html" aria-current="page" data-i18n="nav.home">Почетна</a>
-        <a href="pages/team.html" data-i18n="nav.team">Тим</a>
+        <a href="pages/about.html" data-i18n="nav.about">За нас</a>
         <a href="pages/contact.html" data-i18n="nav.contact">Контакт</a>
-        <a id="account-link" href="pages/account.html" data-i18n="nav.login">Најава</a>
+        <a id="nav-account" href="pages/account.html" data-i18n="nav.login">Најава</a>
       </nav>
 
       <div class="header-actions">
@@ -47,41 +47,39 @@
 
   <main>
     <section class="hero">
-      <div class="container">
-        <h1 data-i18n="hero.title">Мал бизнис со голема грижа</h1>
-        <p data-i18n="hero.subtitle">Привремен текст. Овде во една или две реченици ќе опишеме што работи бизнисот.</p>
-        <div class="actions">
-          <a class="btn" href="#services" data-i18n="hero.cta">Нашите услуги</a>
-          <a class="btn btn-outline" href="pages/contact.html" data-i18n="hero.cta2">Јавете ни се</a>
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow" data-i18n="hero.eyebrow">Печено по нарачка во Скопје</span>
+          <h1 data-i18n="hero.title">Тортата од вашите соништа, до вашата врата</h1>
+          <p data-i18n="hero.subtitle">Изберете торта, облик и големина, или испратете ни слика од дизајнот што го сакате. Ние ја печеме и ја доставуваме.</p>
+          <div class="actions">
+            <a class="btn" href="#services" data-i18n="hero.cta2">Нашите услуги</a>
+            <a class="btn btn-outline" href="pages/contact.html" data-i18n="nav.contact">Контакт</a>
+          </div>
         </div>
+        <svg class="hero-art" width="260" height="204" data-cake='{"size":"large","colors":["#6b3f2a","#f19bb0"]}' role="img" aria-label="Торта од чоколадо и јагода" data-i18n-aria="hero.art"></svg>
       </div>
     </section>
 
-    <section id="about" class="section">
-      <div class="container">
-        <h2 data-i18n="about.title">За нас</h2>
-        <div class="about-text">
-          <p data-i18n="about.p1">Привремен текст. Овој дел ја раскажува приказната на бизнисот: кои сме, кога започнавме и во што веруваме.</p>
-          <p data-i18n="about.p2">Привремен текст. Втор параграф со повеќе детали за тоа како работиме и по што се разликуваме.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="services" class="section alt">
+    <section id="services" class="section alt scallop">
       <div class="container">
         <h2 data-i18n="services.title">Нашите услуги</h2>
+        <p class="section-lead" data-i18n="services.lead">Секоја торта се пече свежо, само за вас. Изберете како сакате да ја добиете.</p>
         <div class="grid">
-          <article class="card">
-            <h3 data-i18n="services.s1.title">Прва услуга</h3>
-            <p data-i18n="services.s1.text">Кус опис на првата услуга.</p>
+          <article class="card service service-featured">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16M5 21v-6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M7 13V9h10v4M12 9V6"/><circle cx="12" cy="4" r="1.2"/><path d="M5 17c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0"/></svg></span>
+            <h3 data-i18n="services.s1.title">Нарачај торта</h3>
+            <p data-i18n="services.s1.text">Изберете една од нашите торти, облик и големина, или побарајте свој дизајн со слика за инспирација.</p>
           </article>
-          <article class="card">
-            <h3 data-i18n="services.s2.title">Втора услуга</h3>
-            <p data-i18n="services.s2.text">Кус опис на втората услуга.</p>
+          <article class="card service">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg></span>
+            <h3 data-i18n="services.s2.title">Торта до вашата врата</h3>
+            <p data-i18n="services.s2.text">Ја доставуваме тортата низ Скопје на денот и во терминот што ќе го изберете, внимателно спакувана.</p>
           </article>
-          <article class="card">
-            <h3 data-i18n="services.s3.title">Трета услуга</h3>
-            <p data-i18n="services.s3.text">Кус опис на третата услуга.</p>
+          <article class="card service">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l1.5-5h13L20 10M4 10h16v10H4zM4 10a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0M10 20v-5h4v5"/></svg></span>
+            <h3 data-i18n="services.s3.title">Подигнете во слаткарницата</h3>
+            <p data-i18n="services.s3.text">Повелете во нашата слаткарница и подигнете ја тортата во избраниот термин, без трошоци за достава.</p>
           </article>
         </div>
       </div>
@@ -90,38 +88,35 @@
     <section id="news" class="section">
       <div class="container">
         <h2 data-i18n="news.title">Новости</h2>
-        <div class="grid">
-          <article class="card">
-            <p class="date" data-i18n="news.n1.date">10 октомври 2026</p>
-            <h3 data-i18n="news.n1.title">Прва новост</h3>
-            <p data-i18n="news.n1.text">Привремен текст за првата објава.</p>
+        <div class="grid news-grid">
+          <article class="card news-item">
+            <p class="date" data-i18n="news.5.date">14 септември 2026</p>
+            <h3 data-i18n="news.5.title">Тркалезна, квадратна или правоаголна</h3>
+            <p data-i18n="news.5.text">Сега можете да го изберете обликот на тортата. Имате нешто посебно на ум? Изберете свој дизајн и испратете ни слика.</p>
           </article>
-          <article class="card">
-            <p class="date" data-i18n="news.n2.date">3 октомври 2026</p>
-            <h3 data-i18n="news.n2.title">Втора новост</h3>
-            <p data-i18n="news.n2.text">Привремен текст за втората објава.</p>
+          <article class="card news-item">
+            <p class="date" data-i18n="news.6.date">1 септември 2026</p>
+            <h3 data-i18n="news.6.title">Достава низ цело Скопје</h3>
+            <p data-i18n="news.6.text">Доставуваме во сите општини во Скопје, во четири термини во денот. Подигнувањето во слаткарницата е секогаш бесплатно.</p>
           </article>
-          <article class="card">
-            <p class="date" data-i18n="news.n3.date">24 септември 2026</p>
-            <h3 data-i18n="news.n3.title">Трета новост</h3>
-            <p data-i18n="news.n3.text">Привремен текст за третата објава.</p>
+          <article class="card news-item">
+            <p class="date" data-i18n="news.7.date">17 август 2026</p>
+            <h3 data-i18n="news.7.title">Се вративме од одмор</h3>
+            <p data-i18n="news.7.text">Фирмениот одмор заврши и рерните повторно се топли. Благодариме што не почекавте.</p>
+          </article>
+          <article class="card news-item">
+            <p class="date" data-i18n="news.8.date">14 јули 2026</p>
+            <h3 data-i18n="news.8.title">Фирмен одмор во август</h3>
+            <p data-i18n="news.8.text">Затворени сме од 3 до 16 август поради фирмен одмор, а се враќаме на 17 август. И на слаткарите им треба море.</p>
           </article>
         </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section alt cta">
-      <div class="container">
-        <h2 data-i18n="cta.title">Сакате да дознаете повеќе?</h2>
-        <p data-i18n="cta.text">Пишете ни или посетете не. Со задоволство ќе ве слушнеме.</p>
-        <a class="btn" href="pages/contact.html" data-i18n="cta.button">Контакт податоци</a>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container">
-      <p data-i18n="footer.rights">© 2026 Име на бизнисот. Сите права се задржани.</p>
+      <p data-i18n="footer.rights">© 2026 Тортара. Сите права се задржани.</p>
       <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
       <p><a href="pages/cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
     </div>
@@ -136,6 +131,7 @@
   <script src="localisation/mk.js"></script>
   <script src="js/cookies.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/cake-draw.js"></script>
   <script src="js/main.js"></script>
   <script src="js/auth.js"></script>
 </body>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Име на бизнисот | Профил</title>
+  <title>Тортара | Профил</title>
   <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
   <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -11,13 +11,13 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="../index.html" data-i18n="brand">Име на бизнисот</a>
+      <a class="brand" href="../index.html" data-i18n="brand">Тортара</a>
 
       <nav id="site-nav" class="site-nav">
         <a href="../index.html" data-i18n="nav.home">Почетна</a>
-        <a href="team.html" data-i18n="nav.team">Тим</a>
+        <a href="about.html" data-i18n="nav.about">За нас</a>
         <a href="contact.html" data-i18n="nav.contact">Контакт</a>
-        <a id="account-link" href="account.html" aria-current="page" data-i18n="nav.login">Најава</a>
+        <a id="nav-account" href="account.html" aria-current="page" data-i18n="nav.login">Најава</a>
       </nav>
 
       <div class="header-actions">
@@ -56,8 +56,8 @@
       <div class="card">
         <form id="login-form" novalidate aria-labelledby="auth-heading">
           <div class="field">
-            <label for="login-email" data-i18n="auth.email">Е-пошта</label>
-            <input id="login-email" name="email" type="email" autocomplete="email" placeholder="ime@example.com" data-i18n-placeholder="contact.form.email.ph">
+            <label for="login-email" data-i18n="auth.identifier">Е-пошта или корисничко име</label>
+            <input id="login-email" name="identifier" type="text" autocomplete="username" autocapitalize="none" spellcheck="false">
             <div id="err-login-email" class="error" aria-live="polite"></div>
           </div>
           <div class="field">
@@ -84,6 +84,12 @@
             <div id="err-register-email" class="error" aria-live="polite"></div>
           </div>
           <div class="field">
+            <label for="register-username" data-i18n="auth.username">Корисничко име</label>
+            <input id="register-username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20" aria-describedby="username-hint">
+            <div id="username-hint" class="hint" data-i18n="auth.username.hint">3 до 20 знаци: букви, бројки, точка, долна црта или цртичка.</div>
+            <div id="err-register-username" class="error" aria-live="polite"></div>
+          </div>
+          <div class="field">
             <label for="register-password" data-i18n="auth.password">Лозинка</label>
             <input id="register-password" name="password" type="password" autocomplete="new-password" aria-describedby="password-hint">
             <div id="password-hint" class="hint" data-i18n="auth.password.hint">Најмалку 8 знаци.</div>
@@ -104,30 +110,20 @@
       </p>
     </section>
 
-    <section id="account-view" class="container account-view" hidden>
+    <section id="account-view" class="container auth-wrap" hidden>
       <div class="card">
-        <h2 data-i18n="account.welcome">Добредојдовте</h2>
-        <ul class="info-list">
-          <li>
-            <span class="label" data-i18n="auth.email">Е-пошта</span>
-            <span id="account-email" class="account-email"></span>
-          </li>
-          <li>
-            <span class="label" data-i18n="account.since">Профил од</span>
-            <span id="account-created"></span>
-          </li>
-        </ul>
-        <button id="logout-btn" class="btn btn-outline" type="button" data-i18n="auth.logout">Одјави се</button>
+        <p><span data-i18n="account.signedInAs">Најавени сте како</span> <b id="account-username"></b></p>
+        <p id="account-email" class="account-email"></p>
+        <button id="logout-btn" class="btn btn-outline btn-block" type="button" data-i18n="auth.logout">Одјави се</button>
       </div>
     </section>
 
     <p id="auth-unavailable" class="container page-note" hidden data-i18n="auth.unavailable">Профилите не се достапни во моментов. Обидете се подоцна.</p>
   </main>
 
-
   <footer class="site-footer">
     <div class="container">
-      <p data-i18n="footer.rights">© 2026 Име на бизнисот. Сите права се задржани.</p>
+      <p data-i18n="footer.rights">© 2026 Тортара. Сите права се задржани.</p>
       <p data-i18n="footer.course">Студентски проект, Деловна пракса 2025/26</p>
       <p><a href="cookies.html" data-i18n="footer.cookies">Политика за колачиња</a></p>
     </div>
@@ -142,6 +138,7 @@
   <script src="../localisation/mk.js"></script>
   <script src="../js/cookies.js"></script>
   <script src="../js/i18n.js"></script>
+  <script src="../js/cake-draw.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/auth.js"></script>
 </body>
