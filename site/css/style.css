@@ -413,3 +413,36 @@ code { background: var(--bg-soft); padding: 2px 6px; border-radius: 6px; font-si
   .lang-btn { padding: 0 10px; }
   .card { padding: 20px; }
 }
+
+/* ===== Gallery: slow, endless strip of cake photos ===== */
+.gallery { padding: 56px 0 64px; }
+.gallery .section-lead { margin-bottom: 24px; }
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.marquee-track { display: flex; width: max-content; margin: 0; padding: 8px 0 20px; list-style: none; }
+.marquee-track li { flex: none; margin-right: 18px; }
+.marquee-track img {
+  display: block;
+  height: 320px;
+  width: auto;
+  border-radius: var(--radius);
+  border: 5px solid var(--surface);
+  box-shadow: var(--shadow);
+  background: var(--bg-soft);
+}
+/* the strip is moved by js/main.js (slowly on its own, or by dragging) */
+.marquee.is-moving { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.marquee.is-moving.is-dragging { cursor: grabbing; }
+.marquee.is-moving .marquee-track { will-change: transform; }
+.marquee.is-moving img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
+.marquee:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; border-radius: var(--radius); }
+.gallery-credit { margin: 4px 0 0; font-size: 0.82rem; color: var(--muted); opacity: 0.8; }
+/* people who ask for less motion get a strip they can scroll by hand */
+.marquee:not(.is-moving) { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+@media (max-width: 600px) {
+  .gallery { padding: 40px 0 48px; }
+  .marquee-track img { height: 240px; }
+}

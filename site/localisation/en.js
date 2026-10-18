@@ -44,6 +44,22 @@ window.I18N_DICT.en = {
   "services.s3.title": "Pick up at the bakery",
   "services.s3.text": "Drop by our bakery and collect your cake in the slot you chose, with no delivery fee.",
 
+  "gallery.title": "Gallery",
+  "gallery.lead": "A little inspiration: cakes for every occasion.",
+  "gallery.aria": "Gallery of cakes",
+  "gallery.credit": "Photos from our bakery.",
+  "gallery.1.alt": "Tree stump cake with little mushrooms",
+  "gallery.2.alt": "Frog-shaped cake",
+  "gallery.3.alt": "Chocolate cake with a cat and colourful sprinkles",
+  "gallery.4.alt": "Chocolate cake decorated with piped cream",
+  "gallery.5.alt": "Chocolate cake with cream and cherries",
+  "gallery.6.alt": "Cartoon-style cake with dripping icing",
+  "gallery.7.alt": "Cake with green piping and a cartoon figure",
+  "gallery.8.alt": "Birthday cake with red hearts",
+  "gallery.9.alt": "Cake shaped like a mug of beer",
+  "gallery.10.alt": "Slice of chocolate cake with glaze",
+
+
   /* team */
   "team.title": "Our team",
   "team.subtitle": "The people behind the project.",

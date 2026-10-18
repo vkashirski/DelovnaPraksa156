@@ -43,6 +43,81 @@
   else drawCakes();
   document.addEventListener("languagechange", drawCakes);
 
+  /* ---- gallery: slow endless strip you can also drag (or move with the arrow keys) ----
+     The photos are copied once so it loops without a jump. Visitors who prefer reduced
+     motion get a plain strip they scroll by hand. */
+  var marquee = document.getElementById("gallery-marquee");
+  if (marquee) {
+    var track = marquee.querySelector(".marquee-track");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (track && !reduce) {
+      Array.prototype.slice.call(track.children).forEach(function (li) {
+        var copy = li.cloneNode(true);
+        copy.setAttribute("aria-hidden", "true");
+        var img = copy.querySelector("img");
+        if (img) { img.alt = ""; img.removeAttribute("data-i18n-alt"); }
+        track.appendChild(copy);
+      });
+      marquee.classList.add("is-moving");
+
+      var SPEED = 30;          // pixels per second when nobody is touching it
+      var offset = 0;          // how far the strip has moved to the left
+      var half = 0;            // width of one set of photos
+      var glide = 0;           // extra speed left over from a drag, fades out
+      var dragging = false, lastX = 0, lastT = 0, lastFrame = 0;
+
+      var measure = function () { half = track.scrollWidth / 2; };
+      var wrap = function () { if (half > 0) offset = ((offset % half) + half) % half; };
+      var paint = function () { track.style.transform = "translate3d(" + (-offset) + "px,0,0)"; };
+
+      var frame = function (now) {
+        var dt = Math.min(now - (lastFrame || now), 50) / 1000;
+        lastFrame = now;
+        if (!dragging) {
+          offset += (SPEED + glide) * dt;
+          glide *= Math.pow(0.05, dt);
+          if (Math.abs(glide) < 1) glide = 0;
+        }
+        wrap(); paint();
+        window.requestAnimationFrame(frame);
+      };
+
+      marquee.addEventListener("pointerdown", function (e) {
+        if (e.pointerType === "mouse" && e.button !== 0) return;
+        dragging = true; glide = 0;
+        lastX = e.clientX; lastT = e.timeStamp;
+        marquee.classList.add("is-dragging");
+        try { marquee.setPointerCapture(e.pointerId); } catch (err) { /* fine without */ }
+      });
+      marquee.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - lastX, dt = (e.timeStamp - lastT) / 1000;
+        offset -= dx;
+        if (dt > 0) glide = Math.max(-2500, Math.min(2500, -dx / dt));
+        lastX = e.clientX; lastT = e.timeStamp;
+      });
+      var release = function (e) {
+        if (!dragging) return;
+        dragging = false;
+        marquee.classList.remove("is-dragging");
+        if (e && e.timeStamp - lastT > 80) glide = 0;   // held still before letting go
+      };
+      marquee.addEventListener("pointerup", release);
+      marquee.addEventListener("pointercancel", release);
+
+      // arrow keys: the strip needs focus first (Tab)
+      marquee.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") { glide = 900; e.preventDefault(); }
+        else if (e.key === "ArrowLeft") { glide = -900; e.preventDefault(); }
+      });
+
+      measure();
+      window.addEventListener("load", measure);
+      window.addEventListener("resize", measure);
+      window.requestAnimationFrame(frame);
+    }
+  }
+
   /* ---- contact form (validation only, not sent anywhere yet) ---- */
   var form = document.getElementById("contact-form");
   if (form) {
