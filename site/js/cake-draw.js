@@ -1,10 +1,12 @@
 /*
- * Draws one simple cake as SVG from { colors, shape, size, message }.
- *   shape: "round" (default), "square" or "rectangle".
- *   Several colours show as stripes on the side. Used for the drawing on the home page.
+ * Draws one simple cake as SVG from { colors | tastes, shape, size, message }.
+ *   shape: "round" (default), "square", "rectangle" or "design" (round, with sparkles).
+ *   Several colours show as stripes on the side. Used for the cake menu, the home page,
+ *   the order summary and the small cakes in the order list.
  */
 (function () {
   var NS = "http://www.w3.org/2000/svg";
+  var C = window.CakeCatalog;
   var counter = 0;
   var CREAM = "#fff3e3";
 
@@ -41,8 +43,20 @@
     }
   }
 
+  function sparkle(svg, x, y, r, color) {
+    el("path", {
+      d: "M" + x + " " + (y - r) + " L" + (x + r * 0.28) + " " + (y - r * 0.28) + " L" + (x + r) + " " + y +
+         " L" + (x + r * 0.28) + " " + (y + r * 0.28) + " L" + x + " " + (y + r) +
+         " L" + (x - r * 0.28) + " " + (y + r * 0.28) + " L" + (x - r) + " " + y +
+         " L" + (x - r * 0.28) + " " + (y - r * 0.28) + " Z",
+      fill: color,
+    }, svg);
+  }
+
   function colorsFor(cake) {
-    return cake.colors && cake.colors.length ? cake.colors : ["#f3dfae"];
+    if (cake.colors && cake.colors.length) return cake.colors;
+    var tastes = (cake.tastes && cake.tastes.length) ? cake.tastes : ["vanilla"];
+    return tastes.map(function (n) { return (C.tastes[n] || C.tastes.vanilla).color; });
   }
 
   // Vertical stripes of colour across x .. x+w, inside `parent`.
@@ -103,7 +117,64 @@
     }
 
     topping(svg, topX, topY - 4, cake.message);
+
+    if (cake.shape === "design") {
+      sparkle(svg, 26, 130, 11, "#f19bb0");
+      sparkle(svg, 236, 118, 14, "#c2416b");
+      sparkle(svg, 226, 190, 8, "#f2d65c");
+      sparkle(svg, 30, 200, 7, "#c2416b");
+    }
   }
 
   window.CakeDraw = { draw: draw };
+})();
+
+/* Small text helpers shared by the order page and the order list. */
+(function () {
+  function t(key) { return window.I18n ? window.I18n.t(key) : key; }
+
+  // t() with {placeholders}
+  function fmt(key, vars) {
+    return t(key).replace(/\{(\w+)\}/g, function (m, name) {
+      return vars && vars[name] !== undefined ? vars[name] : m;
+    });
+  }
+
+  function money(n) {
+    var s = String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, window.I18n && window.I18n.lang === "en" ? "," : ".");
+    return fmt("money", { n: s });
+  }
+
+  // "2026-10-24" -> "Sat, 24 October 2026" / "саб, 24 октомври 2026" (no time zone surprises)
+  function formatDay(iso) {
+    if (!iso) return "";
+    var p = iso.split("-").map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    var en = window.I18n && window.I18n.lang === "en";
+    var months = en
+      ? ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      : ["јануари", "февруари", "март", "април", "мај", "јуни", "јули", "август", "септември", "октомври", "ноември", "декември"];
+    var days = en ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] : ["нед", "пон", "вто", "сре", "чет", "пет", "саб"];
+    return days[d.getUTCDay()] + ", " + p[2] + " " + months[p[1] - 1] + " " + p[0];
+  }
+
+  function slot(id) {
+    var parts = String(id).split("-");
+    return parts[0] + ":00–" + parts[1] + ":00";
+  }
+
+  // "Milk, Eggs, Gluten"
+  function allergens(list) {
+    return list.map(function (a) { return t("allergen." + a); }).join(", ");
+  }
+
+  // "Chocolate" for a cake from the menu; orders from the first versions can have been
+  // "Your own cake: Lemon, Pistachio" (their own tastes).
+  function cakeName(cake) {
+    if (cake.type !== "custom") return t("cake." + cake.base);
+    var names = (cake.tastes || []).map(function (x) { return t("taste." + x); }).join(", ");
+    return t("order.custom.name") + ": " + names;
+  }
+
+  window.CakeUI = { t: t, fmt: fmt, money: money, formatDay: formatDay, slot: slot, allergens: allergens, cakeName: cakeName };
 })();

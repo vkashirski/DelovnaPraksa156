@@ -15,6 +15,7 @@
 
       <nav id="site-nav" class="site-nav">
         <a href="../index.html" data-i18n="nav.home">Почетна</a>
+        <a href="order.html" data-i18n="nav.order">Нарачај</a>
         <a href="about.html" data-i18n="nav.about">За нас</a>
         <a href="contact.html" data-i18n="nav.contact">Контакт</a>
       </nav>
@@ -161,10 +162,28 @@
 
         <p class="account-meta"><span data-i18n="account.since">Профил создаден</span>: <span id="account-created"></span></p>
       </div>
+
+      <div class="card" id="orders-card">
+        <div class="orders-head">
+          <h2 data-i18n="orders.title">Мои нарачки</h2>
+        </div>
+        <div id="order-list" class="order-list" aria-live="polite"></div>
+        <div id="orders-status" class="status status-error" role="status" aria-live="polite"></div>
+      </div>
     </section>
 
     <p id="auth-unavailable" class="container page-note" hidden data-i18n="auth.unavailable">Профилите не се достапни во моментов. Обидете се подоцна.</p>
   </main>
+
+
+  <dialog id="cancel-dialog" class="dialog" aria-labelledby="cancel-title">
+    <h2 id="cancel-title" data-i18n="orders.cancel.title">Да ја откажете нарачката?</h2>
+    <p id="cancel-text"></p>
+    <div class="dialog-actions">
+      <button id="cancel-yes" class="btn" type="button" data-i18n="orders.cancel.yes">Да, откажи</button>
+      <button id="cancel-no" class="btn btn-outline" type="button" data-i18n="orders.cancel.no">Не, задржи ја</button>
+    </div>
+  </dialog>
 
   <footer class="site-footer">
     <div class="container">
@@ -183,8 +202,10 @@
   <script src="../localisation/mk.js"></script>
   <script src="../js/cookies.js"></script>
   <script src="../js/i18n.js"></script>
+  <script src="../js/cake-catalog.js"></script>
   <script src="../js/cake-draw.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/auth.js"></script>
+  <script src="../js/orders.js"></script>
 </body>
 </html>

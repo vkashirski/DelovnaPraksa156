@@ -3,7 +3,7 @@
  *  - Every page: asks the server who is signed in (GET /api/me) and shows either a
  *    "Sign in" button or the avatar + username in the top bar. When signed in, clicking
  *    it opens a small menu with "Profile" and "Sign out".
- *  - Account page only: sign-in form, create-account form, profile editing.
+ *  - Account page only: sign-in form, create-account form, profile editing, the order list.
  * All text comes from the i18n dictionaries, so it follows the language switch.
  */
 (function () {
@@ -384,7 +384,7 @@
     });
   }
 
-  /* Shared with the other scripts. "ready" is true once /api/me has answered. */
+  /* Shared with order.js / orders.js. "ready" is true once /api/me has answered. */
   var ready = false;
   document.addEventListener("accountchange", function () { ready = true; });
   window.Account = {
@@ -397,7 +397,7 @@
     get current() { return current; },
     get ready() { return ready; },
     get unavailable() { return unavailable; },
-    // Replace the signed-in account.
+    // Replace the signed-in account (e.g. after an order saved a phone/address to it).
     update: function (acc) { if (acc) setAccount(acc); },
   };
 
